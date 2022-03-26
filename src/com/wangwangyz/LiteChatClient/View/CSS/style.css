@@ -1,0 +1,171 @@
+/*灰色主题*/
+.theme-gray{
+    -fx-background-color: gray;
+    -fx-text-fill: rgb(255, 255, 255);
+}
+/*红色主题*/
+.theme-red{
+    -fx-background-color: rgb(182, 0, 0);
+    -fx-text-fill: rgb(255, 255, 255);
+}
+/*蓝色主题*/
+.theme-blue{
+    -fx-background-color: #077ef5;
+    -fx-text-fill: rgb(255, 255, 255);
+}
+/*淡绿色主题*/
+.theme-green{
+    -fx-background-color: #41e21d;
+    -fx-text-fill: rgb(255, 255, 255);
+}
+/*黑色主题*/
+.theme-gray{
+    -fx-background-color: #2d2d2d;
+    -fx-text-fill: rgb(255, 255, 255);
+}
+/*暖色主题*/
+.theme-warm {
+    -fx-background-color: rgb(248, 182, 16);
+    -fx-text-fill: rgb(168, 136, 136);
+}
+.theme-cold{
+    -fx-background-color: rgb(12, 200, 226);
+    -fx-text-fill: rgb(61, 61, 61);
+}
+/*透明背景*/
+.background-transparent{
+    -fx-background-color: transparent;
+}
+/*25%圆角边框*/
+.radius—25{
+    -fx-background-radius: 25%;
+    -fx-border-radius: 25%;
+}
+/*50%圆角边框*/
+.radius—50{
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+}
+/*淡蓝色边框*/
+.border-blue{
+    -fx-border-color: rgb(11, 117, 229);
+}
+/*黑色边框*/
+.border-black{
+    -fx-border-color: rgb(0,0,0);
+}
+/*白色字体*/
+.font-white{
+    -fx-text-fill: white;
+}
+/*蓝色字体*/
+.font-blue{
+    -fx-text-fill: rgb(44, 139, 243);
+}
+/*灰色字体*/
+.font-gray{
+    -fx-text-fill: gray;
+}
+/*黑色字体*/
+.font-black{
+   -fx-text-fill: black;
+}
+/*标题字体*/
+.font-title {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+}
+/*正文字体-大号*/
+.font-big{
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+    -fx-font-size: 24px;
+    -fx-alignment: center;
+}
+/*正文字体-中号*/
+.font-medium{
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+    -fx-font-size: 20px;
+    -fx-alignment: center;
+}
+/*正文字体-小号*/
+.font-small{
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+    -fx-font-size: 16px;
+    -fx-alignment: center;
+}
+/*输入框样式*/
+.input-style {
+    /*对齐方式*/
+    -fx-text-alignment: left;
+    /*内容显示方式*/
+    -fx-content-display: inline-block;
+    /*合适高度*/
+    -fx-pref-height: 30px;
+    /*提示文字颜色*/
+    -fx-prompt-text-fill: rgb(162, 162, 162);
+    /*输入文字颜色*/
+    -fx-text-fill: rgb(0, 0, 0);
+    /*内边距*/
+    -fx-padding: 5 5 5 5;
+}
+.input-style:focused{
+    -fx-border-color: rgb(84, 248, 111);
+}
+
+/*鼠标悬停阴影样式*/
+.hover-shadow:hover{
+   -fx-effect: dropshadow(three-pass-box, #5d696f, 10.0,0, 2, 2);
+    -fx-cursor: hand;
+}
+/*鼠标悬停下划线效果*/
+.hover-underline:hover{
+   -fx-underline: true;
+}
+#header{
+    -fx-background-color: rgb(34, 246, 150);
+}
+#appicon{
+    -fx-background-color: rgba(216,202,195,0);
+    -fx-background-image: url(../resource/icons/AppIcon.png);
+    -fx-background-size: cover;
+
+}
+#left_pane{
+    -fx-background-image: url(../resource/images/login_background.jpg) ;
+    -fx-background-size: cover;
+}
+#right_pane{
+    -fx-background-image: url(../resource/images/login_background2.png);
+    -fx-background-size: cover;
+}
+#avatar{
+    -fx-background-image: url(../resource/images/default_avatar.jpg);
+    -fx-background-size: cover;
+    /*    头像无法圆角化*/
+}
+#minimiser{
+    -fx-background-color: rgba(216,202,195,0);
+    -fx-background-image: url(../resource/icons/最小化白.png);
+}
+#minimiser:hover{
+    -fx-background-image: url(../resource/icons/最小化黑.png);
+    -fx-cursor: hand;
+}
+#quit{
+    -fx-background-color: rgba(216,202,195,0);
+    -fx-background-image: url(../resource/icons/关闭白.png);
+}
+#quit:hover{
+    -fx-background-image: url(../resource/icons/关闭黑.png);
+    -fx-cursor: hand;
+}
+#alert{
+    -fx-background-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-border-color: rgb(180, 180, 180);
+    -fx-background-color: white;
+}

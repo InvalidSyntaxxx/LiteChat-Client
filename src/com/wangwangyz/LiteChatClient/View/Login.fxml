@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="700.0" stylesheets="@CSS/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane fx:id="left_pane" layoutY="50.0" prefHeight="350.0" prefWidth="400.0">
+         <children>
+            <Button fx:id="avatar" layoutX="100.0" layoutY="75.0" mnemonicParsing="false" prefHeight="200.0" prefWidth="200.0" />
+         </children></AnchorPane>
+      <AnchorPane fx:id="right_pane" layoutX="400.0" layoutY="50.0" prefHeight="350.0" prefWidth="300.0">
+         <children>
+            <Button fx:id="login" defaultButton="true" layoutX="59.0" layoutY="208.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="194.0"
+                    styleClass="hover-shadow,radius—50,theme-green" text="登录">
+               <font>
+                  <Font size="20.0" />
+               </font>
+             </Button>
+            <PasswordField fx:id="password" layoutX="59.0" layoutY="145.0" promptText="密码" styleClass="input-style" />
+            <TextField fx:id="username" layoutX="59.0" layoutY="78.0" promptText="用户名/邮箱/手机号" styleClass="input-style" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="14.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@resource/icons/user.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="14.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@resource/icons/password.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="forget" layoutX="166.0" layoutY="269.0" mnemonicParsing="false" styleClass="background-transparent,hover-underline,font-blue" text="忘记密码?" />
+            <Button fx:id="registry" layoutX="100.0" layoutY="306.0" mnemonicParsing="false" styleClass="background-transparent,hover-underline,font-blue" text="没有账号?立即注册" />
+         </children></AnchorPane>
+      <AnchorPane fx:id="header" prefHeight="50.0" prefWidth="700.0">
+         <children>
+            <Button fx:id="minimiser" layoutX="592.0" layoutY="7.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" />
+            <Button fx:id="quit" layoutX="655.0" layoutY="9.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" />
+            <Button fx:id="appicon" layoutX="14.0" layoutY="5.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
