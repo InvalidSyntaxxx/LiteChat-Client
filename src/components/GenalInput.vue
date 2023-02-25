@@ -10,20 +10,21 @@
             <div class="message-tool-item">
               <a-upload :show-upload-list="false" :before-upload="beforeImgUpload">
                 <div class="message-tool-contant">
-                  <img src="~@/assets/photo.png" class="message-tool-item-img" alt="" />
-                  <div class="message-tool-item-text">图片</div>
+                  <a-icon type="picture" :style="{ fontSize: '42px' }"/>
+                  <!-- <img src="~@/assets/photo.png" class="message-tool-item-img" alt="" /> -->
+                  <!-- <div class="message-tool-item-text">图片</div> -->
                 </div>
               </a-upload>
             </div>
           </a-tab-pane>
         </a-tabs>
       </template>
-      <div class="messagte-tool-icon">😃</div>
+      <div class="messagte-tool-icon"><a-icon type="plus" :style="{ color: 'hotpink', fontSize: '1.2rem' }" /></div>
     </a-popover>
     <a-input
       autocomplete="off"
       type="text"
-      placeholder="say hello..."
+      placeholder="说点什么.."
       v-model="text"
       ref="input"
       autoFocus
