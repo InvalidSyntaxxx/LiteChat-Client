@@ -1,5 +1,24 @@
-###LiteChat的客户端
-2022.3.26
+# genal-chat-client
 
->View模块增加登录、注册、提示界面UI<br>Model模块增加获取ip地址、城市定位功能,增加DBCP数据库连接池
+## Project setup
+```
+yarn install
+```
 
+### Compiles and hot-reloads for development
+```
+yarn serve
+```
+
+### Compiles and minifies for production
+```
+yarn build
+```
+
+### Lints and fixes files
+```
+yarn lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
