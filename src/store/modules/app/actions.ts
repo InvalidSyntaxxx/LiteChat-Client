@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: 王远昭
+ * @Date: 2023-02-25 12:17:23
+ * @LastEditors: 王远昭
+ * @LastEditTime: 2023-02-25 16:06:35
+ */
 import { SET_USER, SET_TOKEN } from './mutation-types';
 import { ActionTree } from 'vuex';
 import { AppState } from './state';
