@@ -57,3 +57,5 @@ yarn build
 ```
 yarn lint
 ```
+
+服务端仓库：https://github.com/InvalidSyntaxxx/LiteChat-Server
