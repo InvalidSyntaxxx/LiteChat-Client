@@ -1,16 +1,24 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 王远昭
+ * @Date: 2023-02-25 12:17:23
+ * @LastEditors: 王远昭
+ * @LastEditTime: 2023-02-26 12:46:14
+-->
 即时通讯体验地址：[https://chat.wangwangyz.site](https://chat.wangwangyz.site) 
 
 欢迎来唠嗑~
 
 ### 项目预览
 
-##### 移动端
-
-![image-20230226010055127](https://www.wangwangyz.site/%E4%B8%AA%E4%BA%BA%E5%9B%BE%E5%BA%8A/image-20230226010055127.png)
-
 ##### Web端
 
-![image-20230226005805717](https://www.wangwangyz.site/%E4%B8%AA%E4%BA%BA%E5%9B%BE%E5%BA%8A/image-20230226005805717.png)
+![image-20230226121651597](https://www.wangwangyz.site/%E4%B8%AA%E4%BA%BA%E5%9B%BE%E5%BA%8A/image-20230226121651597.png)
+
+##### 移动端
+
+![image-20230226121805803](https://www.wangwangyz.site/%E4%B8%AA%E4%BA%BA%E5%9B%BE%E5%BA%8A/image-20230226121805803.png)
 
 
 
