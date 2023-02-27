@@ -71,7 +71,7 @@ export default class GenalChat extends Vue {
   @chatModule.Action('connectSocket') connectSocket: Function;
   @chatModule.Getter('unReadGather') unReadGather: UnReadGather;
 
-  chatArr: Array<Group | Friend> = [];
+  chatArr: Array<any> = [];
   unreadMessage: number = 0;
   showModal: boolean = false;
   visibleDrawer: boolean = false;
@@ -105,14 +105,13 @@ export default class GenalChat extends Vue {
     let groups = Object.values(this.groupGather);
     let friends = Object.values(this.friendGather);
     this.chatArr = [...groups, ...friends];
-    // console.log(this.chatArr);
     this.unreadMessage = 0;
     for (let chat in this.chatArr) {
       if (this.chatArr[chat].groupId) {
-        console.log('聊天室id：' + this.unReadGather[this.chatArr[chat].groupId]);
+        // console.log('聊天室id：' + this.unReadGather[this.chatArr[chat].groupId]);
         this.unreadMessage += this.unReadGather[this.chatArr[chat].groupId];
       } else {
-        console.log('用户id：' + this.unReadGather[this.chatArr[chat].userId]);
+        // console.log('用户id：' + this.unReadGather[this.chatArr[chat].userId]);
         this.unreadMessage += this.unReadGather[this.chatArr[chat].userId];
       }
     }
