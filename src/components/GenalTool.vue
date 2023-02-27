@@ -211,9 +211,9 @@ export default class GenalTool extends Vue {
     if (!isJpgOrPng) {
       return this.$message.error('请上传jpeg/jpg/png/gif格式的图片!');
     }
-    const isLt1M = file.size / 1024 / 1024 < 0.5;
-    if (!isLt1M) {
-      return this.$message.error('图片必须小于500K!');
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      return this.$message.error('图片必须小于2M!');
     }
     this.avatar = file;
     this.handleUpload();
