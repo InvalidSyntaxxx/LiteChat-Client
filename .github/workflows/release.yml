@@ -35,10 +35,9 @@ jobs:
           node-version: "16"
        - name: 安装依赖
          run: npm install
-         working-directory: client-vue/mobile # working-directory 指定 shell 命令运行目录
+         working-directory: ./
        - name: LiteChat-Client打包
          run: npm run build
-         
          working-directory: ./
        - name: 发布阿里云
          uses: wlixcc/SFTP-Deploy-Action@v1.0 # 使用 SFTP 协议上传
