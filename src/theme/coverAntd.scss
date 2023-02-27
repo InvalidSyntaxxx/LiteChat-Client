@@ -2,7 +2,23 @@
 .ant-tabs-bar {
   margin: 0 0 10px 0!important;
 }
+// 修改badge组件
 
+.chat-tool .ant-badge .ant-badge-count {
+  z-index: auto;
+  min-width: 10px;
+  height: 14px;
+  padding: 0 4px;
+  color: #fff;
+  font-weight: normal;
+  font-size: 6px;
+  line-height: 14px;
+  white-space: nowrap;
+  text-align: center;
+  background: #f5222d;
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px #fff;
+}
 // 抽屉组件重写样式
 .ant-drawer-content-wrapper {
   background-color: rgba(54, 50, 50, 0.4)!important;
