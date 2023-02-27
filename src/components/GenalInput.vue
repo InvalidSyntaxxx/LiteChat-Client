@@ -19,7 +19,7 @@
           </a-tab-pane>
         </a-tabs>
       </template>
-      <div class="messagte-tool-icon"><a-icon type="plus" :style="{ color: 'hotpink', fontSize: '1.2rem' }" /></div>
+      <div class="messagte-tool-icon"><a-icon type="plus" :style="{ color: '#00BFFF', fontSize: '1.2rem' }" /></div>
     </a-popover>
     <a-input
       autocomplete="off"

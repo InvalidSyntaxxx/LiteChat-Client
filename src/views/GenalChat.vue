@@ -1,29 +1,30 @@
 <template>
-  <div
-    class="chat"
-    :style="{
-      '--bg-image': `url('${background}')`,
-    }"
-  >
+  <div class="chat" :style="{
+    '--bg-image': `url('${background}')`,
+  }">
     <genal-music></genal-music>
     <div class="chat-part1" v-if="visibleTool">
       <genal-tool @logout="logout"></genal-tool>
     </div>
     <div class="chat-part2">
-      <genal-search @addGroup="addGroup" @joinGroup="joinGroup" @addFriend="addFriend" @setActiveRoom="setActiveRoom"> </genal-search>
+      <genal-search @addGroup="addGroup" @joinGroup="joinGroup" @addFriend="addFriend" @setActiveRoom="setActiveRoom">
+      </genal-search>
       <genal-room @setActiveRoom="setActiveRoom"></genal-room>
     </div>
     <div class="chat-part3">
-      <a-icon class="chat-team" type="message" @click="toggleDrawer" />
       <div class="chat-tool">
         <a-icon type="menu-fold" @click="toggleTool" v-if="visibleTool" />
         <a-icon type="menu-unfold" @click="toggleTool" v-else />
+        <a-badge :count="unreadMessage" :number-style="{ backgroundColor: '#00BFFF' }">
+          <a-icon :style="{ fontSize: '24px', padding: '0 0 0 10px' }" type="message" @click="toggleDrawer" />
+        </a-badge>
       </div>
       <genal-message v-if="activeRoom"></genal-message>
     </div>
     <a-drawer placement="left" :closable="false" :visible="visibleDrawer" @close="toggleDrawer" style="height:100%">
       <div class="chat-drawer">
-        <genal-search @addGroup="addGroup" @joinGroup="joinGroup" @addFriend="addFriend" @setActiveRoom="setActiveRoom"> </genal-search>
+        <genal-search @addGroup="addGroup" @joinGroup="joinGroup" @addFriend="addFriend" @setActiveRoom="setActiveRoom">
+        </genal-search>
         <genal-room @setActiveRoom="setActiveRoom"></genal-room>
       </div>
     </a-drawer>
@@ -32,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import GenalTool from '@/components/GenalTool.vue';
 import GenalJoin from '@/components/GenalJoin.vue';
 import GenalRoom from '@/components/GenalRoom.vue';
@@ -40,6 +41,7 @@ import GenalMessage from '@/components/GenalMessage.vue';
 import GenalSearch from '@/components/GenalSearch.vue';
 import GenalMusic from '@/components/GenalMusic.vue';
 import { namespace } from 'vuex-class';
+import chat from '@/store/modules/chat';
 const appModule = namespace('app');
 const chatModule = namespace('chat');
 
@@ -63,10 +65,14 @@ export default class GenalChat extends Vue {
   @chatModule.Getter('socket') socket: SocketIOClient.Socket;
   @chatModule.Getter('userGather') userGather: FriendGather;
   @chatModule.Getter('groupGather') groupGather: GroupGather;
+  @chatModule.Getter('friendGather') friendGather: FriendGather;
   @chatModule.Getter('activeRoom') activeRoom: Friend & Group;
   @chatModule.Mutation('set_active_room') _setActiveRoom: Function;
   @chatModule.Action('connectSocket') connectSocket: Function;
+  @chatModule.Getter('unReadGather') unReadGather: UnReadGather;
 
+  chatArr: Array<Group | Friend> = [];
+  unreadMessage: number = 0;
   showModal: boolean = false;
   visibleDrawer: boolean = false;
   visibleTool: boolean = true;
@@ -78,7 +84,39 @@ export default class GenalChat extends Vue {
       this.handleJoin();
     }
   }
+  @Watch('groupGather', { deep: true })
+  changeGroupGather() {
+    this.changeUnreadMessage();
+  }
+  @Watch('friendGather', { deep: true })
+  changeFriendGather() {
+    this.changeUnreadMessage();
+  }
 
+  @Watch('unReadGather', { deep: true })
+  UnreadMessage() {
+    this.changeUnreadMessage();
+  }
+
+  //  1. 判断是否在当前窗口，从消息窗口转过来时、从聊天窗口转过来时清空标点；
+  //  2. 独立设置两个状态，有新消息时 unreadMessage 为
+
+  changeUnreadMessage() {
+    let groups = Object.values(this.groupGather);
+    let friends = Object.values(this.friendGather);
+    this.chatArr = [...groups, ...friends];
+    // console.log(this.chatArr);
+    this.unreadMessage = 0;
+    for (let chat in this.chatArr) {
+      if (this.chatArr[chat].groupId) {
+        console.log('聊天室id：' + this.unReadGather[this.chatArr[chat].groupId]);
+        this.unreadMessage += this.unReadGather[this.chatArr[chat].groupId];
+      } else {
+        console.log('用户id：' + this.unReadGather[this.chatArr[chat].userId]);
+        this.unreadMessage += this.unReadGather[this.chatArr[chat].userId];
+      }
+    }
+  }
   // 登录
   async handleLogin(user: User) {
     let res = await this.login(user);
@@ -166,22 +204,26 @@ export default class GenalChat extends Vue {
   display: flex;
   border-radius: 5px;
   overflow: hidden;
+
   .chat-part1 {
     width: 74px;
     height: 100%;
     background-color: rgb(0, 0, 0, 0.7);
   }
+
   .chat-part2 {
     width: 230px;
     height: 100%;
     background-color: rgb(0, 0, 0, 0.3);
   }
+
   .chat-part3 {
     flex: 1;
     height: 100%;
     background-color: rgb(0, 0, 0, 0.2);
     overflow-y: hidden;
     position: relative;
+
     .chat-group {
       height: 53px;
       border-bottom: 1px solid #ccc;
@@ -189,13 +231,20 @@ export default class GenalChat extends Vue {
       font-weight: bold;
     }
   }
+
   .chat-team {
     display: none;
   }
+
   .chat-tool {
     display: none;
   }
+
+  // .chat-list {
+  // display: none;
+  // }
 }
+
 .chat::after {
   content: '';
   background: var(--bg-image) 0 / cover fixed;
@@ -212,9 +261,11 @@ export default class GenalChat extends Vue {
   .chat {
     margin: 0;
     height: 100%;
+
     .chat-part2 {
       display: none;
     }
+
     .chat-team {
       display: block !important;
       position: absolute;
@@ -222,10 +273,12 @@ export default class GenalChat extends Vue {
       top: 17px;
       left: 60px;
       z-index: 999;
+
       &:active {
         color: skyblue;
       }
     }
+
     .chat-tool {
       display: block !important;
       position: absolute;
@@ -233,6 +286,7 @@ export default class GenalChat extends Vue {
       top: 13px;
       left: 20px;
       z-index: 999;
+
       &:active {
         color: skyblue;
       }

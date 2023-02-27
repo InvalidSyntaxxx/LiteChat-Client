@@ -1,3 +1,11 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 王远昭
+ * @Date: 2023-02-25 12:17:23
+ * @LastEditors: 王远昭
+ * @LastEditTime: 2023-02-27 23:49:30
+-->
 即时通讯体验地址：[https://chat.wangwangyz.site](https://chat.wangwangyz.site) 
 
 欢迎来唠嗑~
@@ -6,13 +14,10 @@
 
 ##### 移动端
 
-![image-20230226010055127](https://www.wangwangyz.site/%E4%B8%AA%E4%BA%BA%E5%9B%BE%E5%BA%8A/image-20230226010055127.png)
+![image-20230227233901630](https://www.wangwangyz.site/%E4%B8%AA%E4%BA%BA%E5%9B%BE%E5%BA%8A/image-20230227233901630.png)
 
 ##### Web端
-
-![image-20230226005805717](https://www.wangwangyz.site/%E4%B8%AA%E4%BA%BA%E5%9B%BE%E5%BA%8A/image-20230226005805717.png)
-
-
+![image-20230227234317901](https://www.wangwangyz.site/%E4%B8%AA%E4%BA%BA%E5%9B%BE%E5%BA%8A/image-20230227234317901.png)
 
 ### 项目功能
 
@@ -22,11 +27,12 @@
 4. 创建群/加入群/退群/模糊搜索群
 5. 添加好友/删好友/模糊搜索用户
 6. 消息分页
-7. 表情包
-8. 图片发送/图片预览
-9. 在线人数统计
-10. 自定义主题
-11. 重连提醒
+7. 好友/群新消息提醒
+8. 表情包
+9. 图片发送/图片预览
+10. 在线人数统计
+11. 自定义主题
+12. 重连提醒
 
 ### 技术概览
 

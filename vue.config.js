@@ -1,4 +1,4 @@
-const Host = 'http://localhost:3000/';
+const Host = 'http://47.94.12.50:3000/';
 const webpack = require('webpack');
 
 // cdn链接
