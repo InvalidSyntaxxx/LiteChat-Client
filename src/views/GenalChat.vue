@@ -15,8 +15,8 @@
       <div class="chat-tool">
         <a-icon type="menu-fold" @click="toggleTool" v-if="visibleTool" />
         <a-icon type="menu-unfold" @click="toggleTool" v-else />
-        <a-badge :count="unreadMessage" :number-style="{ backgroundColor: '#00BFFF' }">
-          <a-icon :style="{ fontSize: '24px', padding: '0 0 0 10px' }" type="message" @click="toggleDrawer" />
+        <a-badge class="chat-tool-badge" :count="unreadMessage" :number-style="{ backgroundColor: '#00BFFF' }">
+          <a-icon :style="{ fontSize: '28px', padding: '0 0 0 18px' }" type="message" @click="toggleDrawer" />
         </a-badge>
       </div>
       <genal-message v-if="activeRoom"></genal-message>
@@ -71,7 +71,7 @@ export default class GenalChat extends Vue {
   @chatModule.Action('connectSocket') connectSocket: Function;
   @chatModule.Getter('unReadGather') unReadGather: UnReadGather;
 
-  chatArr: Array<any> = [];
+  chatArr: Array<Group | Friend> = [];
   unreadMessage: number = 0;
   showModal: boolean = false;
   visibleDrawer: boolean = false;
@@ -102,17 +102,20 @@ export default class GenalChat extends Vue {
   //  2. 独立设置两个状态，有新消息时 unreadMessage 为
 
   changeUnreadMessage() {
+    this.chatArr = [];
     let groups = Object.values(this.groupGather);
     let friends = Object.values(this.friendGather);
     this.chatArr = [...groups, ...friends];
     this.unreadMessage = 0;
+    // console.log("initial:"+this.unreadMessage);
     for (let chat in this.chatArr) {
-      if (this.chatArr[chat].groupId) {
-        // console.log('聊天室id：' + this.unReadGather[this.chatArr[chat].groupId]);
-        this.unreadMessage += this.unReadGather[this.chatArr[chat].groupId];
+      if ((this.chatArr[chat] as Group).groupId) {
+        let groupId = (this.chatArr[chat] as Group).groupId;
+        this.unreadMessage += this.unReadGather[(this.chatArr[chat] as any).groupId] || 0;
+        // console.log('聊天室id：' + this.unReadGather[(this.chatArr[chat] as any).groupId] + '未读消息：' + this.unreadMessage);
       } else {
-        // console.log('用户id：' + this.unReadGather[this.chatArr[chat].userId]);
-        this.unreadMessage += this.unReadGather[this.chatArr[chat].userId];
+        this.unreadMessage += this.unReadGather[(this.chatArr[chat] as Friend).userId] || 0;
+        // console.log('用户id：' + this.unReadGather[(this.chatArr[chat] as Friend).userId] + '未读消息：' + this.unreadMessage);
       }
     }
   }
