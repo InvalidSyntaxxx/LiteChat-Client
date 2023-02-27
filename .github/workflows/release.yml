@@ -42,7 +42,7 @@ jobs:
        - name: 发布阿里云
          uses: wlixcc/SFTP-Deploy-Action@v1.0 # 使用 SFTP 协议上传
          with:
-           username: 'root'
+           username: 'wyz'
            server: '${{ secrets.Ali_SERVER_HOST }}'
            ssh_private_key: '${{ secrets.Ali_SERVER_PRIVATE_KEY }}'
            local_path: 'dist/*'
