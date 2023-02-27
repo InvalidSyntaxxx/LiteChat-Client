@@ -16,7 +16,7 @@
         <a-icon type="menu-fold" @click="toggleTool" v-if="visibleTool" />
         <a-icon type="menu-unfold" @click="toggleTool" v-else />
         <a-badge class="chat-tool-badge" :count="unreadMessage" :number-style="{ backgroundColor: '#00BFFF' }">
-          <a-icon :style="{ fontSize: '28px', padding: '0 0 0 18px' }" type="message" @click="toggleDrawer" />
+          <a-icon :style="{ fontSize: '26px', padding: '0 0 0 18px' }" type="message" @click="toggleDrawer" />
         </a-badge>
       </div>
       <genal-message v-if="activeRoom"></genal-message>
