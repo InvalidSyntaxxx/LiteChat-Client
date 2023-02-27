@@ -1,0 +1,51 @@
+# This is a basic workflow that is manually triggered
+
+name: LiteChat Workflows
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  push:
+    branches: main
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      name:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'Person to greet'
+        # Default value if no value is explicitly provided
+        default: 'World'
+        # Input has to be provided for the workflow to run
+        required: true
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "greet"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+       - name: 签出代码
+         uses: actions/checkout@main
+       - name: 安装 nodejs
+         uses: actions/setup-node@v2
+         with:
+          node-version: "16"
+       - name: 安装依赖
+         run: npm install
+         working-directory: client-vue/mobile # working-directory 指定 shell 命令运行目录
+       - name: LiteChat-Client打包
+         run: npm run build
+         
+         working-directory: ./
+       - name: 发布阿里云
+         uses: wlixcc/SFTP-Deploy-Action@v1.0 # 使用 SFTP 协议上传
+         with:
+           username: 'root'
+           server: '${{ secrets.Ali_SERVER_HOST }}'
+           ssh_private_key: '${{ secrets.Ali_SERVER_PRIVATE_KEY }}'
+           local_path: 'dist/*'
+           remote_path: '/home/wyz/LiteChat-Client/dist/'
+           args: "-o ConnectTimeout=5"
