@@ -243,9 +243,9 @@ export default class GenalInput extends Vue {
     if (!isJpgOrPng) {
       return this.$message.error('请选择jpeg/jpg/png/gif格式的图片!');
     }
-    const isLt1M = imageFile.size / 1024 / 1024 < 0.5;
+    const isLt1M = imageFile.size / 1024 / 1024 < 5;
     if (!isLt1M) {
-      return this.$message.error('图片必须小于500K!');
+      return this.$message.error('图片必须小于5M!');
     }
     let image = new Image();
     let url = window.URL || window.webkitURL;
