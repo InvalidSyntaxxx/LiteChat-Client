@@ -7,7 +7,7 @@
         :class="{ active: activeRoom && activeRoom.groupId === chat.groupId }"
         @click="changeActiveRoom(chat)"
       >
-        <a-badge class="room-card-badge" :number-style="{ backgroundColor: '#00BFFF' }" :count="unReadGather[chat.groupId]" />
+        <a-badge class="room-card-badge" :count="unReadGather[chat.groupId]" />
         <img class="room-card-type" src="~@/assets/group.png" alt="" />
         <div class="room-card-message">
           <div class="room-card-name">{{ chat.groupName }}</div>
@@ -27,7 +27,7 @@
         :class="{ active: activeRoom && !activeRoom.groupId && activeRoom.userId === chat.userId }"
         @click="changeActiveRoom(chat)"
       >
-        <a-badge class="room-card-badge" :number-style="{ backgroundColor: '#00BFFF' }" :count="unReadGather[chat.userId]" />
+        <a-badge class="room-card-badge" :count="unReadGather[chat.userId]" />
         <img
           class="room-card-type"
           :src="friendGather[chat.userId].avatar"

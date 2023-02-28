@@ -14,18 +14,16 @@
       <a-icon type="bulb" class="tool-tip icon" />
     </a-tooltip>
     <a-icon type="skin" class="tool-skin icon" @click="showBackgroundModal = true" />
-    <a href="https://github.com/InvalidSyntaxxx/LiteChat-Client" target="_blank" class="tool-github icon"><a-icon type="github"/></a>
+    <a href="https://github.com/InvalidSyntaxxx/LiteChat-Client" target="_blank" class="tool-github icon"><a-icon
+        type="github" /></a>
     <a-icon class="tool-out icon" type="poweroff" @click="logout" />
     <a-modal title="用户信息" :visible="showUserModal" footer="" @cancel="showUserModal = false">
       <div class="tool-user">
-        <div
-          @mouseover="showUpload = true"
-          @mouseleave="showUpload = false"
-          class="tool-user-avatar"
-          :class="{ active: showUpload || uploading }"
-        >
+        <div @mouseover="showUpload = true" @mouseleave="showUpload = false" class="tool-user-avatar"
+          :class="{ active: showUpload || uploading }">
           <a-avatar :src="user.avatar" class="img" :size="120"></a-avatar>
-          <a-upload v-if="showUpload && !uploading" class="tool-user-upload" :show-upload-list="false" :before-upload="beforeUpload">
+          <a-upload v-if="showUpload && !uploading" class="tool-user-upload" :show-upload-list="false"
+            :before-upload="beforeUpload">
             <div class="text">
               <a-icon type="upload" style="margin-right: 4px;" />
               <span>更换头像</span>
@@ -60,59 +58,47 @@
         <a-button type="primary" @click="changeBackground">确认</a-button>
       </div>
       <div class="tool-recommend">
-        <div
-          class="recommend"
-          @click="
-            setBackground(
-              'https://images.weserv.nl/?url=https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/23fa890c0c244db1b2d6e0927113475c~tplv-k3u1fbpfcp-zoom-1.image?imageView2/2/w/800/q/85'
-            )
-          "
-        >
+        <div class="recommend" @click="
+          setBackground(
+            'https://images.weserv.nl/?url=https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/23fa890c0c244db1b2d6e0927113475c~tplv-k3u1fbpfcp-zoom-1.image?imageView2/2/w/800/q/85'
+          )
+        ">
           <img
             src="https://images.weserv.nl/?url=https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/23fa890c0c244db1b2d6e0927113475c~tplv-k3u1fbpfcp-zoom-1.image?imageView2/2/w/800/q/85"
-            alt=""
-          />
+            alt="" />
           <span class="text">阿童木</span>
         </div>
-        <div
-          class="recommend"
-          @click="
-            setBackground('https://images.weserv.nl/?url=https://raw.githubusercontent.com/alexanderbast/vscode-snazzy/master/sample.jpg')
-          "
-        >
-          <img src="https://images.weserv.nl/?url=https://raw.githubusercontent.com/alexanderbast/vscode-snazzy/master/sample.jpg" alt="" />
+        <div class="recommend" @click="
+          setBackground('https://images.weserv.nl/?url=https://raw.githubusercontent.com/alexanderbast/vscode-snazzy/master/sample.jpg')
+        ">
+          <img
+            src="https://images.weserv.nl/?url=https://raw.githubusercontent.com/alexanderbast/vscode-snazzy/master/sample.jpg"
+            alt="" />
           <span class="text">VSCode摸鱼</span>
         </div>
-        <div
-          class="recommend"
-          @click="
-            setBackground(
-              'https://images.weserv.nl/?url=https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/453b8ebcdefa46a69c620da13f346ce2~tplv-k3u1fbpfcp-zoom-1.image?imageView2/2/w/800/q/85'
-            )
-          "
-        >
+        <div class="recommend" @click="
+          setBackground(
+            'https://images.weserv.nl/?url=https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/453b8ebcdefa46a69c620da13f346ce2~tplv-k3u1fbpfcp-zoom-1.image?imageView2/2/w/800/q/85'
+          )
+        ">
           <img
             src="https://images.weserv.nl/?url=https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/453b8ebcdefa46a69c620da13f346ce2~tplv-k3u1fbpfcp-zoom-1.image?imageView2/2/w/800/q/85"
-            alt=""
-          />
+            alt="" />
           <span class="text">山谷</span>
         </div>
-        <div class="recommend" @click="setBackground('https://pic2.zhimg.com/v2-f76706d67343c66b08c937ec6bc42942_r.jpg?source=1940ef5c')">
+        <div class="recommend"
+          @click="setBackground('https://pic2.zhimg.com/v2-f76706d67343c66b08c937ec6bc42942_r.jpg?source=1940ef5c')">
           <img src="https://pic2.zhimg.com/v2-f76706d67343c66b08c937ec6bc42942_r.jpg?source=1940ef5c" alt="" />
           <span class="text">云朵</span>
         </div>
-        <div
-          class="recommend"
-          @click="
-            setBackground(
-              'https://images.weserv.nl/?url=https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cc98cbc4ca284fc0aa509b12db0e325e~tplv-k3u1fbpfcp-zoom-1.image?imageView2/2/w/800/q/85'
-            )
-          "
-        >
+        <div class="recommend" @click="
+          setBackground(
+            'https://images.weserv.nl/?url=https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cc98cbc4ca284fc0aa509b12db0e325e~tplv-k3u1fbpfcp-zoom-1.image?imageView2/2/w/800/q/85'
+          )
+        ">
           <img
             src="https://images.weserv.nl/?url=https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cc98cbc4ca284fc0aa509b12db0e325e~tplv-k3u1fbpfcp-zoom-1.image?imageView2/2/w/800/q/85"
-            alt=""
-          />
+            alt="" />
           <span class="text">少女</span>
         </div>
         <div class="recommend" @click="setBackground('https://picb.zhimg.com/v2-263525f6c912d300abfa0eed3acbfd4b_r.jpg')">
@@ -177,6 +163,10 @@ export default class GenalTool extends Vue {
     if (!nameVerify(this.username)) {
       return;
     }
+    if (this.user.username === '游客') {
+      alert('游客账户无权限！请退出注册新账号');
+      return;
+    }
     let user: User = JSON.parse(JSON.stringify(this.user));
     user.username = this.username;
     let res = await apis.patchUserName(user);
@@ -195,6 +185,10 @@ export default class GenalTool extends Vue {
 
   async changePassword() {
     if (!passwordVerify(this.password)) {
+      return;
+    }
+    if (this.user.username === '游客' && this.user.password === '123') {
+      alert('游客账户无权限！请退出注册新账号');
       return;
     }
     let user: User = JSON.parse(JSON.stringify(this.user));
@@ -255,8 +249,10 @@ export default class GenalTool extends Vue {
   padding: 10px 5px;
   height: 98%;
   position: relative;
+
   .tool-avatar {
     margin-top: 3px;
+
     .tool-avatar-img {
       margin: 0 auto;
       width: 55px;
@@ -264,12 +260,14 @@ export default class GenalTool extends Vue {
       border-radius: 50%;
       overflow: hidden;
       cursor: pointer;
+
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
     }
+
     .tool-avatar-name {
       color: #fff;
       overflow: hidden; //超出的文本隐藏
@@ -278,19 +276,24 @@ export default class GenalTool extends Vue {
       margin-top: 2px;
     }
   }
+
   .tool-tip {
     bottom: 190px;
   }
+
   .tool-skin {
     bottom: 130px;
   }
+
   .tool-github {
     color: rgba(255, 255, 255, 0.85);
     bottom: 70px;
   }
+
   .tool-out {
     bottom: 10px;
   }
+
   .icon {
     display: flex;
     flex-direction: column;
@@ -299,6 +302,7 @@ export default class GenalTool extends Vue {
     font-size: 25px;
     cursor: pointer;
     z-index: 100;
+
     &:hover {
       color: skyblue;
     }
@@ -308,6 +312,7 @@ export default class GenalTool extends Vue {
 .tool-user {
   text-align: center;
   font-size: 16px;
+
   .tool-user-avatar {
     position: relative;
     width: 120px;
@@ -315,6 +320,7 @@ export default class GenalTool extends Vue {
     margin: 0 auto 24px;
     border-radius: 50%;
     cursor: pointer;
+
     .tool-user-upload {
       .text {
         position: absolute;
@@ -327,6 +333,7 @@ export default class GenalTool extends Vue {
         font-weight: bold;
       }
     }
+
     .loading {
       position: absolute;
       top: 50%;
@@ -336,9 +343,11 @@ export default class GenalTool extends Vue {
       font-weight: bold;
       color: #fff;
     }
+
     .img {
       transition: 0.2s all linear;
     }
+
     &.active {
       .img {
         filter: blur(3px);
@@ -346,14 +355,17 @@ export default class GenalTool extends Vue {
     }
   }
 }
+
 .tool-user-info {
   display: flex;
   justify-content: left;
   align-items: center;
+
   .tool-user-input {
     flex: 1;
     margin-right: 5px;
   }
+
   .tool-user-title {
     display: flex;
     align-items: center;
@@ -363,6 +375,7 @@ export default class GenalTool extends Vue {
     word-break: keep-all;
     margin-right: 15px;
   }
+
   &:nth-child(2) {
     margin-bottom: 15px;
   }
@@ -373,6 +386,7 @@ export default class GenalTool extends Vue {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+
   .recommend {
     display: flex;
     align-items: center;
@@ -384,11 +398,13 @@ export default class GenalTool extends Vue {
     overflow: hidden;
     cursor: pointer;
     transition: 0.3s all linear;
+
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+
     span {
       position: absolute;
       color: rgba(255, 255, 255, 0.85);
@@ -396,8 +412,10 @@ export default class GenalTool extends Vue {
       transition: 0.3s all linear;
       opacity: 0;
     }
+
     &:hover {
       box-shadow: 1px 5px 10px gray;
+
       span {
         opacity: 1;
       }
@@ -408,10 +426,10 @@ export default class GenalTool extends Vue {
 @media screen and (max-width: 788px) {
   .tool-recommend {
     font-size: 12px;
+
     .recommend {
       width: 80px;
       height: 80px;
     }
   }
-}
-</style>
+}</style>
