@@ -108,7 +108,7 @@ export default class GenalInput extends Vue {
    * 2.机器人用户向群组回话
    */
 
-  async getGPT(info: string): Promise<string> {
+  async handlePostGPT(info: string, type: string, Id: string): Promise<string> {
     axios
       .post(
         'https://api.openai.com/v1/completions',
@@ -120,32 +120,55 @@ export default class GenalInput extends Vue {
         {
           headers: {
             'content-type': 'application/json',
-<<<<<<< HEAD
-            // Authorization: 'Bearer OpeonAIkey',
-=======
-            Authorization: 'Bearer ' + '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',
->>>>>>> 7b89730c0eb528d77f89270ab9fea5776281c281
+            Authorization: 'Bearer apikey',
           },
         }
       )
       .then((response) => {
-        this.socket.emit('groupMessage', {
-          userId: '26db8ec2-301d-4672-9de2-b6ef074b505f',
-          groupId: this.activeRoom.groupId,
-          content: response.data.choices[0].text,
-          messageType: 'text',
-        });
+        if (type === 'group') {
+          this.socket.emit('groupMessage', {
+            userId: '26db8ec2-301d-4672-9de2-b6ef074b505f',
+            groupId: Id,
+            content: this.regexGPT(response.data.choices[0].text),
+            messageType: 'text',
+          });
+        } else {
+          console.log(response.data)
+          this.socket.emit('friendMessage', {
+            userId: '26db8ec2-301d-4672-9de2-b6ef074b505f',
+            friendId: this.user.userId,
+            content: this.regexGPT(response.data.choices[0].text),
+            messageType: 'text',
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
-        this.socket.emit('groupMessage', {
-          userId: '26db8ec2-301d-4672-9de2-b6ef074b505f',
-          groupId: this.activeRoom.groupId,
-          content: '机器人出点问题，请稍后...',
-          messageType: 'text',
-        });
+        if (type === 'group') {
+          this.socket.emit('groupMessage', {
+            userId: '26db8ec2-301d-4672-9de2-b6ef074b505f',
+            groupId: Id,
+            content: '机器人出了点问题，请稍后...',
+            messageType: 'text',
+          });
+        } else {
+          this.socket.emit('friendMessage', {
+            userId: '26db8ec2-301d-4672-9de2-b6ef074b505f',
+            friendId: this.user.userId,
+            content: '机器人出了点问题，请稍后...',
+            messageType: 'text',
+          });
+        }
+        return '';
       });
     return '';
+  }
+  /**
+   * ChatGPT回话修改
+   */
+  regexGPT(answer: string): string {
+    answer = answer.replace(/^['?','!','。','.',']/, '');
+    return answer;
   }
   /**
    * 消息发送前校验
@@ -162,8 +185,11 @@ export default class GenalInput extends Vue {
     if (this.activeRoom.groupId) {
       this.sendMessage({ type: 'group', message: this.text, messageType: 'text' });
       if (this.text.substring(0, 4) == '@机器人') {
-        this.getGPT(this.text.slice(4));
+        this.handlePostGPT(this.text.slice(4), 'group', this.activeRoom.groupId);
       }
+    } else if (this.activeRoom.userId === '26db8ec2-301d-4672-9de2-b6ef074b505f') { //通过activeRoom获取当前用户id
+      this.sendMessage({ type: 'friend', message: this.text, messageType: 'text' });
+      this.handlePostGPT(this.text, 'friend', this.activeRoom.userId);
     } else {
       this.sendMessage({ type: 'friend', message: this.text, messageType: 'text' });
     }

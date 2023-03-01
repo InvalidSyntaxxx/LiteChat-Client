@@ -4,7 +4,7 @@
  * @Author: 王远昭
  * @Date: 2023-02-25 12:17:23
  * @LastEditors: 王远昭
- * @LastEditTime: 2023-03-01 16:41:50
+ * @LastEditTime: 2023-03-02 03:45:48
 -->
 即时通讯体验地址：[https://chat.wangwangyz.site](https://chat.wangwangyz.site) 
 
@@ -33,7 +33,7 @@
 10. 在线人数统计
 11. 自定义主题
 12. 重连提醒
-13. ChatGPT机器人聊天
+13. ChatGPT群聊/单人聊天
 
 ### 技术概览
 
