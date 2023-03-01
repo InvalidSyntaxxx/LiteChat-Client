@@ -8,21 +8,26 @@
     </div>
     <a-tooltip placement="topLeft" arrow-point-at-center>
       <div slot="title">
-        <div>请文明聊天</div>
+        <div>请文明(肆意)聊天</div>
         <div>截图粘贴可发送图片</div>
       </div>
       <a-icon type="bulb" class="tool-tip icon" />
     </a-tooltip>
     <a-icon type="skin" class="tool-skin icon" @click="showBackgroundModal = true" />
-    <a href="https://github.com/InvalidSyntaxxx/LiteChat-Client" target="_blank" class="tool-github icon"><a-icon
-        type="github" /></a>
+    <a href="https://github.com/InvalidSyntaxxx/LiteChat-Client" target="_blank" class="tool-github icon"><a-icon type="github"/></a>
     <a-icon class="tool-out icon" type="poweroff" @click="logout" />
     <a-modal title="用户信息" :visible="showUserModal" footer="" @cancel="showUserModal = false">
       <div class="tool-user">
-        <div @mouseover="showUpload = true" @mouseleave="showUpload = false" class="tool-user-avatar"
+        <div
+          @mouseover="showUpload = true"
+          @mouseleave="showUpload = false"
+          class="tool-user-avatar"
           :class="{ active: showUpload || uploading }">
           <a-avatar :src="user.avatar" class="img" :size="120"></a-avatar>
-          <a-upload v-if="showUpload && !uploading" class="tool-user-upload" :show-upload-list="false"
+          <a-upload
+            v-if="showUpload && !isTourist && !uploading"
+            class="tool-user-upload"
+            :show-upload-list="false"
             :before-upload="beforeUpload">
             <div class="text">
               <a-icon type="upload" style="margin-right: 4px;" />
@@ -154,6 +159,9 @@ export default class GenalTool extends Vue {
     this.$emit('logout');
   }
 
+  isTourist() {
+    return this.user.username === '游客';
+  }
   showUserInfo() {
     this.username = this.user.username;
     this.showUserModal = true;
@@ -163,7 +171,7 @@ export default class GenalTool extends Vue {
     if (!nameVerify(this.username)) {
       return;
     }
-    if (this.user.username === '游客') {
+    if (this.isTourist()) {
       alert('游客账户无权限！请退出注册新账号');
       return;
     }
@@ -187,7 +195,7 @@ export default class GenalTool extends Vue {
     if (!passwordVerify(this.password)) {
       return;
     }
-    if (this.user.username === '游客' && this.user.password === '123') {
+    if (this.isTourist()) {
       alert('游客账户无权限！请退出注册新账号');
       return;
     }
@@ -205,9 +213,9 @@ export default class GenalTool extends Vue {
     if (!isJpgOrPng) {
       return this.$message.error('请上传jpeg/jpg/png/gif格式的图片!');
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
+    const isLt2M = file.size / 1024 / 1024 < 5;
     if (!isLt2M) {
-      return this.$message.error('图片必须小于2M!');
+      return this.$message.error('图片必须小于5M!');
     }
     this.avatar = file;
     this.handleUpload();

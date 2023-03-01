@@ -15,7 +15,7 @@
       <div class="chat-tool">
         <a-icon type="menu-fold" @click="toggleTool" v-if="visibleTool" />
         <a-icon type="menu-unfold" @click="toggleTool" v-else />
-        <a-badge class="chat-tool-badge" :count="unreadMessage" :number-style="{ backgroundColor: '#00BFFF' }">
+        <a-badge class="chat-tool-badge" :count="unreadMessage">
           <a-icon :style="{ fontSize: '26px', padding: '0 0 0 18px' }" type="message" @click="toggleDrawer" />
         </a-badge>
       </div>
@@ -42,6 +42,8 @@ import GenalSearch from '@/components/GenalSearch.vue';
 import GenalMusic from '@/components/GenalMusic.vue';
 import { namespace } from 'vuex-class';
 import chat from '@/store/modules/chat';
+import cookie from 'js-cookie';
+import { SET_GROUP_GATHER } from '@/store/modules/chat/mutation-types';
 const appModule = namespace('app');
 const chatModule = namespace('chat');
 
@@ -68,6 +70,8 @@ export default class GenalChat extends Vue {
   @chatModule.Getter('friendGather') friendGather: FriendGather;
   @chatModule.Getter('activeRoom') activeRoom: Friend & Group;
   @chatModule.Mutation('set_active_room') _setActiveRoom: Function;
+  @chatModule.Mutation('set_group_gather') _setGroupGather: Function; // 设置初始状态
+  @chatModule.Mutation('set_friend_gather') _setFriendGather: Function;
   @chatModule.Action('connectSocket') connectSocket: Function;
   @chatModule.Getter('unReadGather') unReadGather: UnReadGather;
 
@@ -80,10 +84,11 @@ export default class GenalChat extends Vue {
   created() {
     if (!this.user.userId) {
       this.showModal = true;
+      // this.setGather();
     } else {
       this.handleJoin();
     }
-  }
+    }
   @Watch('groupGather', { deep: true })
   changeGroupGather() {
     this.changeUnreadMessage();
@@ -107,12 +112,14 @@ export default class GenalChat extends Vue {
     let friends = Object.values(this.friendGather);
     this.chatArr = [...groups, ...friends];
     this.unreadMessage = 0;
-    // console.log("initial:"+this.unreadMessage);
+    // console.log("initial:" + this.unreadMessage);
     for (let chat in this.chatArr) {
       if ((this.chatArr[chat] as Group).groupId) {
         let groupId = (this.chatArr[chat] as Group).groupId;
-        this.unreadMessage += this.unReadGather[(this.chatArr[chat] as any).groupId] || 0;
+        this.unreadMessage += this.unReadGather[(this.chatArr[chat] as Group).groupId] || 0;
         // console.log('聊天室id：' + this.unReadGather[(this.chatArr[chat] as any).groupId] + '未读消息：' + this.unreadMessage);
+        console.log(cookie.get('groupsUnRead'));
+        // this.unreadMessage = Number(cookie.get('unReadCount')) || 0;
       } else {
         this.unreadMessage += this.unReadGather[(this.chatArr[chat] as Friend).userId] || 0;
         // console.log('用户id：' + this.unReadGather[(this.chatArr[chat] as Friend).userId] + '未读消息：' + this.unreadMessage);

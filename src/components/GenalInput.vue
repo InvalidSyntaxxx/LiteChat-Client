@@ -120,7 +120,7 @@ export default class GenalInput extends Vue {
         {
           headers: {
             'content-type': 'application/json',
-            Authorization: 'Bearer ' + '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',
+            // Authorization: 'Bearer OpeonAIkey',
           },
         }
       )

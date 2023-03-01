@@ -18,16 +18,16 @@ jobs:
     steps:
       - name: 签出代码
         uses: actions/checkout@main
-      - name: 安装 nodejs
-        uses: actions/setup-node@v2
-        with:
-          node-version: "16"
-      - name: 安装依赖
-        run: npm install
-        working-directory: ./
-      - name: LiteChat-Client打包
-        run: npm run build
-        working-directory: ./
+      # - name: 安装 nodejs
+        # uses: actions/setup-node@v2
+        # with:
+          # node-version: "16"
+      # - name: 安装依赖
+        # run: npm install
+        # working-directory: ./
+      # - name: LiteChat-Client打包
+        # run: npm run build
+        # working-directory: ./
       - name: 发布阿里云
         uses: wlixcc/SFTP-Deploy-Action@v1.0 # 使用 SFTP 协议上传
         with:
