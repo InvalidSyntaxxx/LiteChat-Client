@@ -1,4 +1,4 @@
-const Host = 'http://47.94.12.50:3000/';
+const Host = 'https://chat.wangwangyz.site/';
 const webpack = require('webpack');
 
 // cdn链接
@@ -89,7 +89,7 @@ module.exports = {
     port: 8080,
     proxy: {
       '/api': {
-        target: Host,
+        target: Host + '/api',
         ws: true,
         changeOrigin: true,
         pathRewrite: {
@@ -97,7 +97,7 @@ module.exports = {
         },
       },
       'socket.io': {
-        target: Host,
+        target: Host + 'socket.io',
         ws: true,
         changeOrigin: true,
       },
