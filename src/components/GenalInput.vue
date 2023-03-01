@@ -10,7 +10,7 @@
             <div class="message-tool-item">
               <a-upload :show-upload-list="false" :before-upload="beforeImgUpload">
                 <div class="message-tool-contant">
-                  <a-icon type="picture" :style="{ fontSize: '42px' }"/>
+                  <a-icon type="picture" :style="{ fontSize: '42px' }" />
                   <!-- <img src="~@/assets/photo.png" class="message-tool-item-img" alt="" /> -->
                   <!-- <div class="message-tool-item-text">图片</div> -->
                 </div>
@@ -21,16 +21,8 @@
       </template>
       <div class="messagte-tool-icon"><a-icon type="plus" :style="{ color: '#00BFFF', fontSize: '1.2rem' }" /></div>
     </a-popover>
-    <a-input
-      autocomplete="off"
-      type="text"
-      placeholder="说点什么.."
-      v-model="text"
-      ref="input"
-      autoFocus
-      style="color:#000;"
-      @pressEnter="throttle(preSendMessage)"
-    />
+    <a-input autocomplete="off" type="text" placeholder="说点什么.." v-model="text" ref="input" autoFocus style="color:#000;"
+      @pressEnter="throttle(preSendMessage)" />
     <img class="message-input-button" @click="throttle(preSendMessage)" src="~@/assets/send.png" alt="" />
   </div>
 </template>
@@ -39,6 +31,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import GenalEmoji from './GenalEmoji.vue';
 import { namespace } from 'vuex-class';
+import axios from 'axios';
 const chatModule = namespace('chat');
 const appModule = namespace('app');
 
@@ -110,6 +103,47 @@ export default class GenalInput extends Vue {
   }
 
   /**
+   * 启用机器人对话，引入GPT-3
+   * 1.发送消息api得到gpt回话
+   * 2.机器人用户向群组回话
+   */
+
+  async getGPT(info: string): Promise<string> {
+    axios
+      .post(
+        'https://api.openai.com/v1/completions',
+        {
+          prompt: info,
+          max_tokens: 2048,
+          model: 'text-davinci-003',
+        },
+        {
+          headers: {
+            'content-type': 'application/json',
+            Authorization: 'Bearer ' + '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',
+          },
+        }
+      )
+      .then((response) => {
+        this.socket.emit('groupMessage', {
+          userId: '26db8ec2-301d-4672-9de2-b6ef074b505f',
+          groupId: this.activeRoom.groupId,
+          content: response.data.choices[0].text,
+          messageType: 'text',
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.socket.emit('groupMessage', {
+          userId: '26db8ec2-301d-4672-9de2-b6ef074b505f',
+          groupId: this.activeRoom.groupId,
+          content: '机器人出点问题，请稍后...',
+          messageType: 'text',
+        });
+      });
+    return '';
+  }
+  /**
    * 消息发送前校验
    */
   preSendMessage() {
@@ -117,12 +151,15 @@ export default class GenalInput extends Vue {
       this.$message.error('不能发送空消息!');
       return;
     }
-    if (this.text.length > 220) {
+    if (this.text.length > 320) {
       this.$message.error('消息太长!');
       return;
     }
     if (this.activeRoom.groupId) {
       this.sendMessage({ type: 'group', message: this.text, messageType: 'text' });
+      if (this.text.substring(0, 4) == '@机器人') {
+        this.getGPT(this.text.slice(4));
+      }
     } else {
       this.sendMessage({ type: 'friend', message: this.text, messageType: 'text' });
     }
@@ -270,9 +307,11 @@ export default class GenalInput extends Vue {
   position: absolute;
   width: 100%;
   bottom: 0px;
+
   input {
     height: 40px;
   }
+
   .message-input-button {
     width: 30px;
     cursor: pointer;
@@ -286,6 +325,7 @@ export default class GenalInput extends Vue {
 .ant-input {
   padding: 0 50px 0 50px;
 }
+
 // 消息工具样式
 .messagte-tool-icon {
   position: absolute;
@@ -299,22 +339,27 @@ export default class GenalInput extends Vue {
   cursor: pointer;
   z-index: 99;
 }
+
 .message-tool-item {
   width: 0px;
   height: 240px;
   cursor: pointer;
+
   .message-tool-contant {
     width: 50px;
     padding: 5px;
     border-radius: 5px;
     transition: all linear 0.2s;
+
     .message-tool-item-img {
       width: 40px;
     }
+
     .message-tool-item-text {
       text-align: center;
       font-size: 10px;
     }
+
     &:hover {
       background: rgba(135, 206, 235, 0.6);
     }
