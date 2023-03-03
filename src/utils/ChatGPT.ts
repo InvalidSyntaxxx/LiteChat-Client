@@ -4,7 +4,7 @@
  * @Author: 王远昭
  * @Date: 2023-03-03 14:41:57
  * @LastEditors: 王远昭
- * @LastEditTime: 2023-03-03 19:36:02
+ * @LastEditTime: 2023-03-03 21:15:03
  */
 /**
  * 启用机器人对话，引入GPT-3
@@ -14,7 +14,7 @@
 import axios from 'axios';
 export const DEFAULT_CHATGPT_USERID = '26db8ec2-301d-4672-9de2-b6ef074b505f';
 
-export function PostGPT(messages: Array<Object>): Promise<string> {
+export async function PostGPT(messages: Array<Object>): Promise<string> {
   return axios
     .post(
       'https://api.openai.com/v1/chat/completions',
@@ -26,8 +26,9 @@ export function PostGPT(messages: Array<Object>): Promise<string> {
       {
         headers: {
           'content-type': 'application/json',
-          Authorization: 'Bearer ' + 'key',
+          Authorization: 'Bearer ' + '',
         },
+        timeout: 600000, // 默认值是 `0` (永不超时)
       }
     )
     .then((response) => {
@@ -35,7 +36,7 @@ export function PostGPT(messages: Array<Object>): Promise<string> {
     })
     .catch((err) => {
       console.log(err);
-      return 'err';
+      return '';
     });
 }
 /**

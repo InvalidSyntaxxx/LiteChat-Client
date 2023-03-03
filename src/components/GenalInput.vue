@@ -116,6 +116,7 @@ export default class GenalInput extends Vue {
 
   async handlePostGPT(info: string, type: string, Id: string) {
     if (!info) {
+      GPT2Group(this.socket, Id, '@' + this.user.username + ' 你好！我在');
       return;
     }
     if (type === 'group') {
@@ -123,11 +124,11 @@ export default class GenalInput extends Vue {
       let FormatData: Array<Object> = this.formatPOSTData({ role: 'user', content: info }, Id);
       let response: string = await PostGPT(FormatData);
       if (response) {
-        GPT2Group(this.socket, Id, response);
+        GPT2Group(this.socket, Id, '@' + this.user.username + response);
         // 成功则添加新消息
         this.formatPOSTData({ role: 'assistant', content: response }, this.user.userId);
       } else {
-        GPT2Group(this.socket, Id, '当前您的信号不好，请稍后...');
+        GPT2Group(this.socket, Id, '@' + this.user.username + '当前您的信号不好，请稍后...');
         // 失败则将message撤回, 这里可能有逻辑错误！！
         this.GPTMessages[Id].messages.pop();
         this.GPTMessages[Id].total = this.GPTMessages[Id].total - 0;
