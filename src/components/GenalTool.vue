@@ -43,7 +43,7 @@
         <div @mouseover="showUpload = true" @mouseleave="showUpload = false" class="tool-user-avatar"
           :class="{ active: showUpload || uploading }">
           <a-avatar :src="user.avatar" class="img" :size="120"></a-avatar>
-          <a-upload v-if="showUpload && !isTourist && !uploading" class="tool-user-upload" :show-upload-list="false"
+          <a-upload v-if="showUpload && this.user.username!=='游客' && !uploading" class="tool-user-upload" :show-upload-list="false"
             :before-upload="beforeUpload">
             <div class="text">
               <a-icon type="upload" style="margin-right: 4px;" />

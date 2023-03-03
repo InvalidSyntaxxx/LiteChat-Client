@@ -189,7 +189,7 @@ export default class GenalInput extends Vue {
       this.$message.info('游客无权限！请您注册账号体验所有功能');
       return;
     }
-    if (this.text.length > 220) {
+    if (this.text.length > 1000) {
       this.$message.error('消息太长!');
       return;
     }
