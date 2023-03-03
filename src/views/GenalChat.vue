@@ -118,7 +118,6 @@ export default class GenalChat extends Vue {
         let groupId = (this.chatArr[chat] as Group).groupId;
         this.unreadMessage += this.unReadGather[(this.chatArr[chat] as Group).groupId] || 0;
         // console.log('聊天室id：' + this.unReadGather[(this.chatArr[chat] as any).groupId] + '未读消息：' + this.unreadMessage);
-        console.log(cookie.get('groupsUnRead'));
         // this.unreadMessage = Number(cookie.get('unReadCount')) || 0;
       } else {
         this.unreadMessage += this.unReadGather[(this.chatArr[chat] as Friend).userId] || 0;
@@ -261,7 +260,7 @@ export default class GenalChat extends Vue {
   object-fit: cover;
   width: 100%;
   height: 100%;
-  filter: blur(10px);
+  // filter: blur(10px);
   transform: scale(1.08);
   z-index: -1;
 }

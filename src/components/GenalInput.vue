@@ -31,10 +31,15 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import GenalEmoji from './GenalEmoji.vue';
 import { namespace } from 'vuex-class';
-import axios from 'axios';
+import { DEFAULT_CHATGPT_USERID, GPT2Group, GPT2User, PostGPT } from '@/utils/ChatGPT';
 const chatModule = namespace('chat');
 const appModule = namespace('app');
-
+interface Messages {
+  [key: string]: {
+    messages: Array<Object>;
+    total: number;
+  };
+}
 @Component({
   components: {
     GenalEmoji,
@@ -52,6 +57,7 @@ export default class GenalInput extends Vue {
 
   text: string = '';
   lastTime: number = 0;
+  GPTMessages: Messages = {};
 
   mounted() {
     this.initPaste();
@@ -108,67 +114,67 @@ export default class GenalInput extends Vue {
    * 2.机器人用户向群组回话
    */
 
-  async handlePostGPT(info: string, type: string, Id: string): Promise<string> {
-    axios
-      .post(
-        'https://api.openai.com/v1/completions',
-        {
-          prompt: info,
-          max_tokens: 2048,
-          model: 'text-davinci-003',
-        },
-        {
-          headers: {
-            'content-type': 'application/json',
-            Authorization: 'Bearer apikey',
-          },
-        }
-      )
-      .then((response) => {
-        if (type === 'group') {
-          this.socket.emit('groupMessage', {
-            userId: '26db8ec2-301d-4672-9de2-b6ef074b505f',
-            groupId: Id,
-            content: this.regexGPT(response.data.choices[0].text),
-            messageType: 'text',
-          });
-        } else {
-          console.log(response.data)
-          this.socket.emit('friendMessage', {
-            userId: '26db8ec2-301d-4672-9de2-b6ef074b505f',
-            friendId: this.user.userId,
-            content: this.regexGPT(response.data.choices[0].text),
-            messageType: 'text',
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        if (type === 'group') {
-          this.socket.emit('groupMessage', {
-            userId: '26db8ec2-301d-4672-9de2-b6ef074b505f',
-            groupId: Id,
-            content: '机器人出了点问题，请稍后...',
-            messageType: 'text',
-          });
-        } else {
-          this.socket.emit('friendMessage', {
-            userId: '26db8ec2-301d-4672-9de2-b6ef074b505f',
-            friendId: this.user.userId,
-            content: '机器人出了点问题，请稍后...',
-            messageType: 'text',
-          });
-        }
-        return '';
-      });
-    return '';
+  async handlePostGPT(info: string, type: string, Id: string) {
+    if (!info) {
+      return;
+    }
+    if (type === 'group') {
+      // 群组机器人通话
+      let FormatData: Array<Object> = this.formatPOSTData({ role: 'user', content: info }, Id);
+      let response: string = await PostGPT(FormatData);
+      if (response) {
+        GPT2Group(this.socket, Id, response);
+        // 成功则添加新消息
+        this.formatPOSTData({ role: 'assistant', content: response }, this.user.userId);
+      } else {
+        GPT2Group(this.socket, Id, '当前您的信号不好，请稍后...');
+        // 失败则将message撤回, 这里可能有逻辑错误！！
+        this.GPTMessages[Id].messages.pop();
+        this.GPTMessages[Id].total = this.GPTMessages[Id].total - 0;
+      }
+    } else {
+      // 单人机器人通话
+      let FormatData: Array<Object> = this.formatPOSTData({ role: 'user', content: info }, this.user.userId);
+      let response: string = await PostGPT(FormatData);
+      if (response) {
+        GPT2User(this.socket, this.user.userId, response);
+        // 成功则添加新消息
+        this.formatPOSTData({ role: 'assistant', content: response }, this.user.userId);
+      } else {
+        GPT2User(this.socket, this.user.userId, '当前您的信号不好，请稍后...');
+
+        // 失败则将message撤回, 这里可能有逻辑错误！！
+        this.GPTMessages[Id].messages.pop();
+        this.GPTMessages[Id].total = this.GPTMessages[Id].total - 0;
+      }
+    }
   }
   /**
-   * ChatGPT回话修改
+   * 预处理CHATGPT数据发送格式为：
+   * {
+   *  role: 'user',
+   *  content: "123123",
+   *  role: 'assistant',
+   *  content: "asdasd",
+   *  ...
+   * }
    */
-  regexGPT(answer: string): string {
-    answer = answer.replace(/^['?','!','。','.',']/, '');
-    return answer;
+  formatPOSTData(info: {}, Id: string): Array<Object> {
+    //Id in this.messages
+    if (Object.keys(this.GPTMessages).includes(Id)) {
+      this.GPTMessages[Id].messages.push(info);
+      this.GPTMessages[Id].total = this.GPTMessages[Id].total + 1;
+    } else {
+      this.GPTMessages[Id] = {
+        messages: [info],
+        total: 0,
+      };
+    }
+    if (this.GPTMessages[Id].total > 5) {
+      this.GPTMessages[Id].messages.shift();
+      this.GPTMessages[Id].total = this.GPTMessages[Id].total - 1;
+    }
+    return this.GPTMessages[Id].messages;
   }
   /**
    * 消息发送前校验
@@ -178,7 +184,11 @@ export default class GenalInput extends Vue {
       this.$message.error('不能发送空消息!');
       return;
     }
-    if (this.text.length > 320) {
+    if (this.user.username === '游客') {
+      this.$message.info('游客无权限！请您注册账号体验所有功能');
+      return;
+    }
+    if (this.text.length > 220) {
       this.$message.error('消息太长!');
       return;
     }
@@ -187,9 +197,10 @@ export default class GenalInput extends Vue {
       if (this.text.substring(0, 4) == '@机器人') {
         this.handlePostGPT(this.text.slice(4), 'group', this.activeRoom.groupId);
       }
-    } else if (this.activeRoom.userId === '26db8ec2-301d-4672-9de2-b6ef074b505f') { //通过activeRoom获取当前用户id
+    } else if (this.activeRoom.userId === DEFAULT_CHATGPT_USERID) {
+      //通过activeRoom获取当前用户id
       this.sendMessage({ type: 'friend', message: this.text, messageType: 'text' });
-      this.handlePostGPT(this.text, 'friend', this.activeRoom.userId);
+      this.handlePostGPT(this.text, 'friend', this.user.userId);
     } else {
       this.sendMessage({ type: 'friend', message: this.text, messageType: 'text' });
     }
