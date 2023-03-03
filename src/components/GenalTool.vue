@@ -14,20 +14,36 @@
       <a-icon type="bulb" class="tool-tip icon" />
     </a-tooltip>
     <a-icon type="skin" class="tool-skin icon" @click="showBackgroundModal = true" />
-    <a href="https://github.com/InvalidSyntaxxx/LiteChat-Client" target="_blank" class="tool-github icon"><a-icon type="github"/></a>
-    <a-icon class="tool-out icon" type="poweroff" @click="logout" />
+    <!-- <a href="https://github.com/InvalidSyntaxxx/LiteChat-Client" target="_blank" class="tool-github icon"><a-icon type="github"/></a> -->
+    <a-icon type="appstore" class="tool-github icon" @click="showAppModal = true" />
+
+    <a-modal title="应用服务" :visible="showAppModal" footer="" @cancel="showAppModal = false">
+      <div>
+        <div class="bookDownload">
+          <a-icon type="book" class="icon" /> 书籍下载
+          <a href="https://1lib.cf/">1lib.cf</a>
+        </div>
+        <a-input-search placeholder="请输入书名" style="width: 90%; margin: 2px 0 0 20px;" @search="onSearchBook"></a-input-search>
+        <div class="game">
+          <a-icon type="build" class="icon" /> 游戏
+          <div style="padding: 3px 0;">
+            <a href="https://wangwangyz.site/my/games/%E4%B8%80%E4%B8%AA%E9%83%BD%E4%B8%8D%E8%83%BD%E6%AD%BB/">
+              一个都不能死
+            </a>
+          </div>
+          <div>
+            <a href="https://wangwangyz.site/my/games/%E9%AD%94%E6%96%B9">3D魔方</a>
+          </div>
+        </div>
+      </div>
+    </a-modal>
+    <a-icon class="tool-out icon" type="logout" @click="logout" />
     <a-modal title="用户信息" :visible="showUserModal" footer="" @cancel="showUserModal = false">
       <div class="tool-user">
-        <div
-          @mouseover="showUpload = true"
-          @mouseleave="showUpload = false"
-          class="tool-user-avatar"
+        <div @mouseover="showUpload = true" @mouseleave="showUpload = false" class="tool-user-avatar"
           :class="{ active: showUpload || uploading }">
           <a-avatar :src="user.avatar" class="img" :size="120"></a-avatar>
-          <a-upload
-            v-if="showUpload && !isTourist && !uploading"
-            class="tool-user-upload"
-            :show-upload-list="false"
+          <a-upload v-if="showUpload && !isTourist && !uploading" class="tool-user-upload" :show-upload-list="false"
             :before-upload="beforeUpload">
             <div class="text">
               <a-icon type="upload" style="margin-right: 4px;" />
@@ -121,7 +137,7 @@ import { setUserAvatar } from '@/api/apis';
 import { DEFAULT_BACKGROUND, DEFAULT_GROUP } from '@/const/index';
 import { namespace } from 'vuex-class';
 import * as apis from '@/api/apis';
-import { processReturn, nameVerify, passwordVerify } from '@/utils/common.ts';
+import { processReturn, nameVerify, passwordVerify } from '@/utils/common';
 const appModule = namespace('app');
 const chatModule = namespace('chat');
 
@@ -130,19 +146,19 @@ export default class GenalTool extends Vue {
   @appModule.Getter('user') user: User;
   @appModule.Mutation('set_background') setBackground: Function;
   @appModule.Mutation('set_user') setUser: Function;
-
   @chatModule.Getter('socket') socket: SocketIOClient.Socket;
   @chatModule.Mutation('set_user_gather') setUserGather: Function;
-
   showUpload: boolean = false;
   showUserModal: boolean = false;
   showBackgroundModal: boolean = false;
-
+  showAppModal: boolean = false;
   username: string = '';
   password: string = '';
   background: string = '';
   uploading: boolean = false;
   avatar: any = '';
+
+  style: string;
 
   @Watch('user')
   userChange() {
@@ -158,7 +174,9 @@ export default class GenalTool extends Vue {
   logout() {
     this.$emit('logout');
   }
-
+  onSearchBook(value: string) {
+    window.location.href = 'https://1lib.cf/s/' + value + '?';
+  }
   isTourist() {
     return this.user.username === '游客';
   }
@@ -166,13 +184,12 @@ export default class GenalTool extends Vue {
     this.username = this.user.username;
     this.showUserModal = true;
   }
-
   async changeUserName() {
     if (!nameVerify(this.username)) {
       return;
     }
     if (this.isTourist()) {
-      alert('游客账户无权限！请退出注册新账号');
+      this.$message.error('游客无权限！请您注册账号体验所有功能');
       return;
     }
     let user: User = JSON.parse(JSON.stringify(this.user));
@@ -196,7 +213,7 @@ export default class GenalTool extends Vue {
       return;
     }
     if (this.isTourist()) {
-      alert('游客账户无权限！请退出注册新账号');
+      this.$message.error('游客无权限！请您注册账号体验所有功能');
       return;
     }
     let user: User = JSON.parse(JSON.stringify(this.user));
@@ -440,4 +457,14 @@ export default class GenalTool extends Vue {
       height: 80px;
     }
   }
-}</style>
+}
+
+.bookDownload,
+.game {
+  font-size: 18px;
+}
+
+.game {
+  padding: 20px 0 0 0;
+}
+</style>

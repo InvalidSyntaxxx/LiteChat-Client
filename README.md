@@ -4,7 +4,7 @@
  * @Author: 王远昭
  * @Date: 2023-02-25 12:17:23
  * @LastEditors: 王远昭
- * @LastEditTime: 2023-03-02 03:45:48
+ * @LastEditTime: 2023-03-03 19:37:11
 -->
 即时通讯体验地址：[https://chat.wangwangyz.site](https://chat.wangwangyz.site) 
 
@@ -34,7 +34,9 @@
 11. 自定义主题
 12. 重连提醒
 13. ChatGPT群聊/单人聊天
-
+14. 游客体验
+15. 书籍下载
+16. 游戏体验
 ### 技术概览
 
 - **Typescript**：JavaScript 的一个超集，它最大的优势是提供了类型系统和提高了代码的可读性和可维护性。
