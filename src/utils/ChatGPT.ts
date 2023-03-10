@@ -4,7 +4,7 @@
  * @Author: 王远昭
  * @Date: 2023-03-03 14:41:57
  * @LastEditors: 王远昭
- * @LastEditTime: 2023-03-03 21:15:03
+ * @LastEditTime: 2023-03-10 22:02:25
  */
 /**
  * 启用机器人对话，引入GPT-3
@@ -28,7 +28,7 @@ export async function PostGPT(messages: Array<Object>): Promise<string> {
           'content-type': 'application/json',
           Authorization: 'Bearer ' + '',
         },
-        timeout: 600000, // 默认值是 `0` (永不超时)
+        // timeout: 600000, // 默认值是 `0` (永不超时)
       }
     )
     .then((response) => {
