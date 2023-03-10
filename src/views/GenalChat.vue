@@ -88,7 +88,7 @@ export default class GenalChat extends Vue {
     } else {
       this.handleJoin();
     }
-    }
+  }
   @Watch('groupGather', { deep: true })
   changeGroupGather() {
     this.changeUnreadMessage();
@@ -260,7 +260,7 @@ export default class GenalChat extends Vue {
   object-fit: cover;
   width: 100%;
   height: 100%;
-  // filter: blur(10px);
+  filter: blur(10px);
   transform: scale(1.08);
   z-index: -1;
 }
@@ -299,6 +299,10 @@ export default class GenalChat extends Vue {
         color: skyblue;
       }
     }
+  }
+
+  .chat::after {
+    filter: blur(0);
   }
 }
 </style>
