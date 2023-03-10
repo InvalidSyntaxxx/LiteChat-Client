@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: 王远昭
+ * @Date: 2023-02-25 12:17:23
+ * @LastEditors: 王远昭
+ * @LastEditTime: 2023-03-10 22:00:10
+ */
 import { SET_USER, CLEAR_USER, SET_TOKEN, SET_MOBILE, SET_BACKGROUND } from './mutation-types';
 import { AppState } from './state';
 import cookie from 'js-cookie';
@@ -23,7 +31,7 @@ const mutations: MutationTree<AppState> = {
 
   [SET_TOKEN](state, payload) {
     state.token = payload;
-    cookie.set('token', payload, { expires: 3 });
+    cookie.set('token', payload, { expires: 3650 });
   },
 
   [SET_MOBILE](state, payload: boolean) {
